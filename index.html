@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Semangat Kerja, Boruu Cantikk! 💜</title>
+  <title>Semangat Kerja, Boruu ! 💜</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -262,6 +262,30 @@
       box-shadow: 0 4px 20px rgba(124,58,237,0.45);
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* Pantun card style */
+    .pantun-lines {
+      font-size: 14px;
+      line-height: 2;
+      color: #4c1d95;
+      padding-top: 16px;
+      text-align: center;
+      font-style: normal;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .pantun-lines .baris-sampiran {
+      color: #9333ea;
+      font-style: italic;
+    }
+    .pantun-lines .baris-isi {
+      color: #4c1d95;
+      font-weight: 600;
+    }
+    .pantun-lines .divider {
+      color: #d8b4fe;
+      margin: 4px 0;
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
@@ -283,7 +307,7 @@
   <div class="title">Semangat Kerja,<br>Boruu Cantikk! 🌟</div>
   <div class="subtitle">Kamu lagi berjuang keras, dan aku bangga banget sama kamu ✨</div>
 
-  <div class="message-card">
+  <div class="message-card" id="message-card">
     <div class="message-text" id="msg-text">Ingat boru, apapun yang terjadi harus semangat! Jangan kalah sama anak TK dan Pak Sugi 🌷</div>
     <span class="verse-ref" id="verse-ref"></span>
   </div>
@@ -312,9 +336,9 @@
     Kirim Semangat Sekarang!
   </button>
 
-  <button class="btn-secondary" onclick="surprise()">
-    <i class="ti ti-book" aria-hidden="true"></i>
-    Surprise Ayat Alkitab 📖
+  <button class="btn-secondary" onclick="surprisePantun()">
+    <i class="ti ti-mood-laugh" aria-hidden="true"></i>
+    Surprise Pantun Lucu! 🎭
   </button>
 
   <div class="streak-bar">
@@ -351,7 +375,7 @@ const messages = {
   alkitab: [
     { text: "Kasih itu sabar; kasih itu murah hati; ia tidak cemburu — tapi aku cemburu kalau kamu ketawa sama orang lain 😂💜", ref: "1 Korintus 13:4" },
     { text: "Aku milik kekasihku dan kekasihku adalah milikku. Ini literally ditulis di Alkitab Rona — kita emang udah ditakdirkan 😍🌹", ref: "Kidung Agung 6:3" },
-    { text: "Seperti Kidung Agung berkata, 'Lihatlah, cantik manisku, sungguh elokmu.' Kamu alasan aku senyum-senyum sendiri tiap hari 😊💗", ref: "Kidung Agung 4:1" },
+    { text: "Seperti Kidung Agung berkata, kamu cantik manisku, sungguh elok dirimu. Kamu alasan aku senyum-senyum sendiri tiap hari 😊💗", ref: "Kidung Agung 4:1" },
     { text: "Datanglah kepada-Ku, semua yang letih lesu. Kalau capek, istirahat ya — kamu ciptaan-Nya yang berharga banget 🌸", ref: "Matius 11:28" },
     { text: "Segala sesuatu yang kamu kehendaki supaya orang perbuat kepadamu, perbuatlah demikian juga. Makanya aku sayang kamu, biar kamu sayang aku balik! 🥺💜", ref: "Matius 7:12" },
     { text: "Dua orang lebih baik dari satu — kalau mereka jatuh, yang seorang mengangkat temannya. Makanya aku selalu ada buat Rona! 🤝💕", ref: "Pengkhotbah 4:9-10" },
@@ -359,13 +383,52 @@ const messages = {
   ]
 };
 
-let surpriseUsed = [];
+const pantunList = [
+  {
+    sampiran: ["Pergi ke pasar beli pepaya,", "Pulang ke rumah kok sepi."],
+    isi: ["Kamu semangat masuk kerja nya,", "Biar Pak Sugi nggak bingung buat kopi! 😂"]
+  },
+  {
+    sampiran: ["Buah mangga jatuh ke kali,", "Airnya deras bawa perahu."],
+    isi: ["Kalau ngantuk di jam kerja,", "Inget wajahku yang imut itu hahaha! 🥺💜"]
+  },
+  {
+    sampiran: ["Makan bakso pakai kuah,", "Tambah cabe biar makin enak."],
+    isi: ["Kerjaan numpuk bikin puyah,", "Tapi Rona tetap yang paling kece sedunia! 😎✨"]
+  },
+  {
+    sampiran: ["Naik becak ke Bandung kota,", "Bawa oleh-oleh dodol manis."],
+    isi: ["Kamu cantik bikin aku buta,", "Buta karena glowing-nya nggak habis! 😍💜"]
+  },
+  {
+    sampiran: ["Ikan lele digoreng renyah,", "Dimakan sama nasi putih panas."],
+    isi: ["Kerjaan banyak bikin menyerah?", "Maju terus, sekalipun nggak nyambung pantunnya hahahaha"]
+  },
+  {
+    sampiran: ["Pergi ke kebun memetik jambu,", "Jambu merah rasanya segar."],
+    isi: ["Capek kerja? Minum dulu,", "Tubuhmu berharga, jangan sampai lapar! "]
+  },
+  {
+    sampiran: ["Beli kue di pinggir jalan,", "Kuenya bulat warna cokelat."],
+    isi: ["Kamu adalah tujuan utamaku,", "Bahkan lebih penting dari deadline! 🤣💜"]
+  },
+  {
+    sampiran: ["Gajah mandi di sungai besar,", "Belalainya panjang kena batu."],
+    isi: ["Kerjaanmu mungkin banyak dan besar,", "Tapi ngapai juga ya gajah mandi di sungai"]
+  },
+];
+
+let surprisePantunUsed = [];
 
 function changeMsg(mode, el) {
   document.querySelectorAll('.mini-card').forEach(c => c.classList.remove('active-mode'));
   el.classList.add('active-mode');
   const arr = messages[mode];
   const item = arr[Math.floor(Math.random() * arr.length)];
+  
+  // Restore normal message card
+  const card = document.getElementById('message-card');
+  card.querySelector('::before'); // keep quote style
   updateCard(item.text, item.ref);
 }
 
@@ -375,6 +438,10 @@ function updateCard(txt, ref) {
   msgEl.style.opacity = 0;
   msgEl.style.transform = 'translateY(8px)';
   refEl.style.opacity = 0;
+
+  // Reset to normal text style
+  msgEl.className = 'message-text';
+
   setTimeout(() => {
     msgEl.textContent = txt;
     refEl.textContent = ref ? '— ' + ref : '';
@@ -386,17 +453,42 @@ function updateCard(txt, ref) {
   }, 300);
 }
 
-function surpriseAyat() {
-  const arr = messages.alkitab;
-  if (surpriseUsed.length >= arr.length) surpriseUsed = [];
+function surprisePantun() {
+  if (surprisePantunUsed.length >= pantunList.length) surprisePantunUsed = [];
   let idx;
-  do { idx = Math.floor(Math.random() * arr.length); } while (surpriseUsed.includes(idx));
-  surpriseUsed.push(idx);
+  do { idx = Math.floor(Math.random() * pantunList.length); } while (surprisePantunUsed.includes(idx));
+  surprisePantunUsed.push(idx);
+
+  const pantun = pantunList[idx];
+  const msgEl = document.getElementById('msg-text');
+  const refEl = document.getElementById('verse-ref');
+
+  // Deactivate all mini cards
   document.querySelectorAll('.mini-card').forEach(c => c.classList.remove('active-mode'));
-  document.getElementById('btn-alkitab').classList.add('active-mode');
-  updateCard(arr[idx].text, arr[idx].ref);
+
+  msgEl.style.opacity = 0;
+  msgEl.style.transform = 'translateY(8px)';
+  refEl.style.opacity = 0;
+
+  setTimeout(() => {
+    msgEl.className = 'pantun-lines';
+    msgEl.innerHTML = `
+      <span class="baris-sampiran">${pantun.sampiran[0]}</span><br>
+      <span class="baris-sampiran">${pantun.sampiran[1]}</span>
+      <div class="divider">• • •</div>
+      <span class="baris-isi">${pantun.isi[0]}</span><br>
+      <span class="baris-isi">${pantun.isi[1]}</span>
+    `;
+    refEl.textContent = '— Pantun Spesial buat Boruu 🎭';
+    msgEl.style.transition = 'opacity 0.35s, transform 0.35s';
+    refEl.style.transition = 'opacity 0.35s';
+    msgEl.style.opacity = 1;
+    msgEl.style.transform = 'translateY(0)';
+    refEl.style.opacity = 1;
+  }, 300);
+
   spawnConfetti();
-  showToast("📖 Ayat spesial buat Boruu Cantikk!");
+  showToast("🎭 Pantun baru buat Boruu Cantikk!");
 }
 
 function sendLove(btn) {
