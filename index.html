@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Semangat Kerja, Boruu Cantikk! 💜</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f3e8ff 0%, #ede0ff 50%, #e9d8fd 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes sparkle { 0%,100%{opacity:0;transform:scale(0)} 50%{opacity:1;transform:scale(1)} }
+    @keyframes pulse-heart { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+    @keyframes bounce-in { 0%{transform:scale(0);opacity:0} 60%{transform:scale(1.15)} 100%{transform:scale(1);opacity:1} }
+    @keyframes slide-up { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+    @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
+    @keyframes wiggle { 0%,100%{transform:rotate(-5deg)} 50%{transform:rotate(5deg)} }
+    @keyframes confetti-fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(500px) rotate(720deg);opacity:0} }
+
+    .wrapper {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(255,255,255,0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 28px;
+      padding: 36px 24px;
+      position: relative;
+      overflow: hidden;
+      border: 1.5px solid rgba(216,180,254,0.5);
+      box-shadow: 0 20px 60px rgba(124,58,237,0.15);
+    }
+
+    .bg-blob {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      animation: sparkle 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      border-radius: 2px;
+      animation: confetti-fall linear forwards;
+      pointer-events: none;
+      top: 0;
+    }
+
+    .avatar-wrap { display: flex; justify-content: center; margin-bottom: 20px; }
+
+    .avatar {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 50px;
+      animation: float 3s ease-in-out infinite;
+      box-shadow: 0 8px 32px rgba(124,58,237,0.4);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s;
+      user-select: none;
+    }
+    .avatar:hover { transform: scale(1.09) !important; }
+
+    .heart-badge {
+      position: absolute;
+      bottom: -4px; right: -4px;
+      background: #fff;
+      border-radius: 50%;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+      animation: pulse-heart 1.2s ease-in-out infinite;
+      box-shadow: 0 2px 10px rgba(124,58,237,0.25);
+    }
+
+    .title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #7c3aed, #c084fc, #7c3aed);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 2.5s linear infinite, bounce-in 0.6s ease both;
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: #9333ea;
+      margin-bottom: 24px;
+      animation: slide-up 0.8s ease 0.2s both;
+    }
+
+    .message-card {
+      background: rgba(255,255,255,0.88);
+      border-radius: 18px;
+      padding: 20px 18px 16px;
+      border: 1.5px solid #d8b4fe;
+      margin-bottom: 14px;
+      animation: slide-up 0.8s ease 0.4s both;
+      box-shadow: 0 4px 18px rgba(124,58,237,0.1);
+      position: relative;
+      min-height: 100px;
+    }
+
+    .message-card::before {
+      content: '"';
+      position: absolute;
+      top: 4px; left: 14px;
+      font-size: 56px;
+      color: #e9d5ff;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .message-text {
+      font-size: 14.5px;
+      line-height: 1.78;
+      color: #4c1d95;
+      padding-top: 20px;
+      text-align: center;
+      font-style: italic;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .verse-ref {
+      display: block;
+      text-align: right;
+      font-size: 12px;
+      color: #9333ea;
+      font-weight: 600;
+      margin-top: 10px;
+      font-style: normal;
+      transition: opacity 0.3s;
+    }
+
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+      animation: slide-up 0.8s ease 0.6s both;
+    }
+
+    .mini-card {
+      background: rgba(255,255,255,0.82);
+      border-radius: 14px;
+      padding: 14px 10px;
+      border: 1px solid #d8b4fe;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 2px 8px rgba(124,58,237,0.08);
+    }
+    .mini-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(124,58,237,0.22); background: white; }
+    .mini-card:active { transform: scale(0.95); }
+    .mini-card.active-mode { background: #7c3aed; border-color: #7c3aed; }
+    .mini-card.active-mode .mini-label { color: white; }
+
+    .mini-icon { font-size: 24px; margin-bottom: 6px; display: block; }
+    .mini-label { font-size: 12px; color: #7c3aed; font-weight: 600; }
+
+    .btn-main {
+      width: 100%;
+      padding: 15px;
+      border-radius: 50px;
+      border: none;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 18px rgba(124,58,237,0.4);
+      animation: slide-up 0.8s ease 0.8s both;
+      margin-bottom: 10px;
+    }
+    .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(124,58,237,0.5); }
+    .btn-main:active { transform: scale(0.97); }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 13px;
+      border-radius: 50px;
+      border: 1.5px solid #a855f7;
+      background: transparent;
+      color: #7c3aed;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.2s;
+      animation: slide-up 0.8s ease 1s both;
+      margin-bottom: 16px;
+    }
+    .btn-secondary:hover { background: rgba(168,85,247,0.1); transform: translateY(-1px); }
+
+    .streak-bar {
+      background: rgba(255,255,255,0.82);
+      border-radius: 14px;
+      padding: 14px 16px;
+      border: 1px solid #d8b4fe;
+      display: flex; align-items: center; gap: 12px;
+      animation: slide-up 0.8s ease 1.1s both;
+      box-shadow: 0 2px 10px rgba(124,58,237,0.07);
+    }
+
+    .streak-icon { font-size: 30px; animation: wiggle 1.5s ease-in-out infinite; }
+    .streak-info { flex: 1; }
+    .streak-label { font-size: 11px; color: #9333ea; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; }
+    .streak-value { font-size: 17px; font-weight: 700; color: #6d28d9; }
+    .streak-dots { display: flex; gap: 5px; margin-top: 5px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #e9d5ff; }
+    .dot.active { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #9333ea;
+      margin-top: 16px;
+      animation: slide-up 0.8s ease 1.2s both;
+      line-height: 1.6;
+    }
+
+    .toast {
+      position: fixed;
+      top: 24px; left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: white;
+      padding: 12px 26px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+      white-space: nowrap;
+      z-index: 9999;
+      box-shadow: 0 4px 20px rgba(124,58,237,0.45);
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<div class="toast" id="toast">💜 Terkirim ke hatinya!</div>
+
+<div class="wrapper" id="wrapper">
+  <div class="bg-blob" style="width:220px;height:220px;background:#a855f7;top:-80px;right:-80px;"></div>
+  <div class="bg-blob" style="width:170px;height:170px;background:#7c3aed;bottom:-60px;left:-60px;"></div>
+  <div class="bg-blob" style="width:100px;height:100px;background:#c084fc;top:42%;right:0px;"></div>
+
+  <div class="avatar-wrap">
+    <div class="avatar" onclick="triggerPaw()" title="Tap buat pelukan kucing virtual!">
+      🐱
+      <div class="heart-badge">💜</div>
+    </div>
+  </div>
+
+  <div class="title">Semangat Kerja,<br>Boruu Cantikk! 🌟</div>
+  <div class="subtitle">Kamu lagi berjuang keras, dan aku bangga banget sama kamu ✨</div>
+
+  <div class="message-card">
+    <div class="message-text" id="msg-text">Ingat boru, apapun yang terjadi harus semangat! Jangan kalah sama anak TK dan Pak Sugi 🌷</div>
+    <span class="verse-ref" id="verse-ref"></span>
+  </div>
+
+  <div class="quotes-grid">
+    <div class="mini-card active-mode" id="btn-semangat" onclick="changeMsg('semangat', this)">
+      <span class="mini-icon">⚡</span>
+      <span class="mini-label">Semangat!</span>
+    </div>
+    <div class="mini-card" id="btn-lucu" onclick="changeMsg('lucu', this)">
+      <span class="mini-icon">😹</span>
+      <span class="mini-label">Mode Lucu</span>
+    </div>
+    <div class="mini-card" id="btn-romantis" onclick="changeMsg('romantis', this)">
+      <span class="mini-icon">🌹</span>
+      <span class="mini-label">Romantis</span>
+    </div>
+    <div class="mini-card" id="btn-alkitab" onclick="changeMsg('alkitab', this)">
+      <span class="mini-icon">✝️</span>
+      <span class="mini-label">Ayat Cinta</span>
+    </div>
+  </div>
+
+  <button class="btn-main" onclick="sendLove(this)">
+    <i class="ti ti-heart" aria-hidden="true"></i>
+    Kirim Semangat Sekarang!
+  </button>
+
+  <button class="btn-secondary" onclick="surpriseAyat()">
+    <i class="ti ti-book" aria-hidden="true"></i>
+    Surprise Ayat Alkitab 📖
+  </button>
+
+  <div class="streak-bar">
+    <div class="streak-icon">🔥</div>
+    <div class="streak-info">
+      <div class="streak-label">Streak Semangat</div>
+      <div class="streak-value">7 hari berturut-turut!</div>
+      <div class="streak-dots">
+        <div class="dot active"></div><div class="dot active"></div><div class="dot active"></div>
+        <div class="dot active"></div><div class="dot active"></div><div class="dot active"></div>
+        <div class="dot active"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Made with 💜 khusus buat Boruu Cantikk<br>Melebihi Boneka Labubu Di Seluruh Supermarket 🐱</div>
+</div>
+
+<script>
+const messages = {
+  semangat: [
+    { text: "Hei Rona, kamu udah sejauh ini lho! Jangan merasa salah arah, sedikit lagi! Aku pegang tanganmu dari jauh 🤝💜", ref: "" },
+    { text: "Capek itu tanda kamu lagi berjuang keras. Tapi ingat katamu — Lakukan semua untuk Tuhan, bukan manusia! 🏆💪", ref: "" },
+    { text: "Semangatt! Ingat masih ada Pak Sugi yang menghibur — dia adalah utusanku untuk membuat mu bahagia 😄💜", ref: "" }
+  ],
+  lucu: [
+    { text: "Kalau kerjaan makin numpuk, inget: kerjaan akan lebih ringan jika tidak dikerjain... tapi jangan ya Rona 😹🐱", ref: "" },
+    { text: "Bu Lilis mungkin strict, tapi aku lebih strict lagi. Aturannya: WAJIB tersenyum sampai Bu Lilis berubah jadi Doraemon! 😂💜", ref: "" }
+  ],
+  romantis: [
+    { text: "Di balik layar laptopmu, ada aku yang selalu doain tiap langkahmu. Dirimu tidak akan pernah sendirian 🌷💜", ref: "" },
+    { text: "Mendengarmu bercerita itu seperti melihat bulan yang berbicara secara langsung — dan itu nyata 🌙💜", ref: "" }
+  ],
+  alkitab: [
+    { text: "Kasih itu sabar; kasih itu murah hati; ia tidak cemburu — tapi aku cemburu kalau kamu ketawa sama orang lain 😂💜", ref: "1 Korintus 13:4" },
+    { text: "Aku milik kekasihku dan kekasihku adalah milikku. Ini literally ditulis di Alkitab Rona — kita emang udah ditakdirkan 😍🌹", ref: "Kidung Agung 6:3" },
+    { text: "Seperti Kidung Agung berkata, 'Lihatlah, cantik manisku, sungguh elokmu.' Kamu alasan aku senyum-senyum sendiri tiap hari 😊💗", ref: "Kidung Agung 4:1" },
+    { text: "Datanglah kepada-Ku, semua yang letih lesu. Kalau capek, istirahat ya — kamu ciptaan-Nya yang berharga banget 🌸", ref: "Matius 11:28" },
+    { text: "Segala sesuatu yang kamu kehendaki supaya orang perbuat kepadamu, perbuatlah demikian juga. Makanya aku sayang kamu, biar kamu sayang aku balik! 🥺💜", ref: "Matius 7:12" },
+    { text: "Dua orang lebih baik dari satu — kalau mereka jatuh, yang seorang mengangkat temannya. Makanya aku selalu ada buat Rona! 🤝💕", ref: "Pengkhotbah 4:9-10" },
+    { text: "Temukan kesenangan dalam Tuhan, maka Ia akan memberikan apa yang diinginkan hatimu. Hati Rona pengen apa? Semoga pengennya aku 😇✨", ref: "Mazmur 37:4" }
+  ]
+};
+
+let surpriseUsed = [];
+
+function changeMsg(mode, el) {
+  document.querySelectorAll('.mini-card').forEach(c => c.classList.remove('active-mode'));
+  el.classList.add('active-mode');
+  const arr = messages[mode];
+  const item = arr[Math.floor(Math.random() * arr.length)];
+  updateCard(item.text, item.ref);
+}
+
+function updateCard(txt, ref) {
+  const msgEl = document.getElementById('msg-text');
+  const refEl = document.getElementById('verse-ref');
+  msgEl.style.opacity = 0;
+  msgEl.style.transform = 'translateY(8px)';
+  refEl.style.opacity = 0;
+  setTimeout(() => {
+    msgEl.textContent = txt;
+    refEl.textContent = ref ? '— ' + ref : '';
+    msgEl.style.transition = 'opacity 0.35s, transform 0.35s';
+    refEl.style.transition = 'opacity 0.35s';
+    msgEl.style.opacity = 1;
+    msgEl.style.transform = 'translateY(0)';
+    refEl.style.opacity = 1;
+  }, 300);
+}
+
+function surpriseAyat() {
+  const arr = messages.alkitab;
+  if (surpriseUsed.length >= arr.length) surpriseUsed = [];
+  let idx;
+  do { idx = Math.floor(Math.random() * arr.length); } while (surpriseUsed.includes(idx));
+  surpriseUsed.push(idx);
+  document.querySelectorAll('.mini-card').forEach(c => c.classList.remove('active-mode'));
+  document.getElementById('btn-alkitab').classList.add('active-mode');
+  updateCard(arr[idx].text, arr[idx].ref);
+  spawnConfetti();
+  showToast("📖 Ayat spesial buat Boruu Cantikk!");
+}
+
+function sendLove(btn) {
+  spawnConfetti();
+  showToast("💜 Terkirim ke hatinya!");
+  btn.innerHTML = '💜 Sudah Terkirim!';
+  btn.style.background = 'linear-gradient(135deg, #059669, #10b981)';
+  setTimeout(() => {
+    btn.innerHTML = '<i class="ti ti-heart" aria-hidden="true"></i> Kirim Semangat Lagi!';
+    btn.style.background = 'linear-gradient(135deg, #7c3aed, #a855f7)';
+  }, 2500);
+}
+
+function triggerPaw() {
+  spawnConfetti();
+  showToast("🐱 Kena pelukan kucing virtual!");
+  const av = document.querySelector('.avatar');
+  av.style.transition = 'transform 0.15s';
+  av.style.transform = 'scale(1.28) rotate(12deg)';
+  setTimeout(() => { av.style.transform = 'scale(1) rotate(0deg)'; }, 500);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+function spawnConfetti() {
+  const colors = ['#7c3aed','#a855f7','#c084fc','#e9d5ff','#f0abfc','#ddd6fe','#8b5cf6'];
+  for (let i = 0; i < 26; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.left = Math.random() * 100 + '%';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.width = (6 + Math.random() * 8) + 'px';
+    c.style.height = (6 + Math.random() * 8) + 'px';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
+    c.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    c.style.animationDelay = (Math.random() * 0.5) + 's';
+    document.getElementById('wrapper').appendChild(c);
+    setTimeout(() => c.remove(), 4000);
+  }
+}
+
+const starColors = ['#a855f7','#7c3aed','#c084fc','#ddd6fe','#f0abfc'];
+const wrapper = document.getElementById('wrapper');
+for (let i = 0; i < 14; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  s.style.left = (5 + Math.random() * 90) + '%';
+  s.style.top = (5 + Math.random() * 90) + '%';
+  s.style.background = starColors[Math.floor(Math.random() * starColors.length)];
+  s.style.animationDelay = (Math.random() * 3) + 's';
+  s.style.animationDuration = (2 + Math.random() * 2) + 's';
+  s.style.width = s.style.height = (4 + Math.random() * 7) + 'px';
+  wrapper.appendChild(s);
+}
+</script>
+
+</body>
+</html>
